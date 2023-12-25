@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title></title>
+  </head>
+  <body>
+    <input type="file" id="onloadFile">
+    <script type="text/javascript">
+      var reg=/(.csv|.txt)$/m
+			var reg2=/(.mp4)$/m
+			var reg3=/(.jp[e]?g|.png)$/m
+			var reg4=/(.mp3)$/m
+			
+			const input = document.querySelector('input[type=file]')
+			
+			  input.addEventListener('change', (event)=>{
+				  
+			    const reader = new FileReader()
+				var file= event.target.files[0];
+				console.log(file.name)
+				
+				
+				//如果读取文本文件类型需要使用file对象中的readAsText方法 并设置文字类型为utf-8类型
+				//如果读取图片，视频音频这种流体文件 需要调用file对象的readAsDataURL 该方法会将内容转换为base64类型 而标签的src会解析base64和blob格式的数据 所以如果为base64或者blob格式得数据直接赋值给标签的src就可以预览到效果 
+				
+				if(	reg.test(file.name)){
+					reader.readAsText(input.files[0],'utf8') //可以读取.csv和.txt文件，.xlsx格式得文件不能读取为文本数据，因为.xlsx格式得文件不能保存为utf-8编码得文件。所以要读取.xlsx格式得文件只能通过读取为base64格式得数据或者arraybuffer格式得数据
+				}
+				if(reg2.test(file.name)||reg3.test(file.name)||reg4.test(file.name)){
+					reader.readAsDataURL(input.files[0]) 
+				}
+				
+				/*
+				fileReader对象还有以下两种读取文件的方式
+				fileReader对象.readAsArrayBuffer(文件对象) 将该文件读取为arraybuffer类型的数据
+				fileReader对象.readAsBinaryString(文件对象) 将该文件读取为二进制类型的数据
+				*/
+				
+				// input.files[0]拿到文件
+				//reader.onload是fileReader对象读取文件结束时的回调函数 这个回调函数会有一个参数 
+				//该参数的target下的result中保存了fileReader对象读取文件后的结果
+				
+			    reader.onload = (event)=>{
+					
+					if(	reg.test(file.name)){
+						 document.body.innerHTML += event.target.result  // reader.result为获取结果
+						   console.log(event.target.result)
+					}
+					if(reg2.test(file.name)){
+						document.getElementById('vedio').src=event.target.result
+						  console.log(event.target.result)
+					}
+					
+					if(reg3.test(file.name)){
+						document.getElementById('img').src=event.target.result
+						  console.log(event.target.result)
+					}
+					if(reg4.test(file.name)){
+					document.getElementById('audio').src=event.target.result
+					  console.log(event.target.result)
+				}
+				
+			    }
+			  }, false)
+    </script>
+  </body>>
+</html>>

@@ -1,0 +1,16 @@
+import matplotlib.pyplot as plt
+topic = ['happiness', 'anger', 'surprise', 'sadness', 'like', 'disgust', 'fear']
+Postive_percentage = [339, 99, 60, 28, 62, 9, 3]
+
+
+sizes = Postive_percentage
+print(sizes)
+labels = list(topic)
+# makeitastring = ''.join(map(str, labels))
+print(labels)
+colors = ['yellowgreen', 'lightgreen', 'darkgreen', 'gold', 'red', 'lightsalmon', 'darkred']
+plt.pie(sizes, explode=None, labels=labels, colors=colors, autopct='%1.1f%%', shadow=True, startangle=90)   #line 240
+#plt.pie(sizes, labels, colors)
+plt.axis('equal')
+plt.legend()
+plt.show()
